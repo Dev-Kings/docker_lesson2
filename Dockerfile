@@ -6,13 +6,15 @@ RUN wget https://raw.githubusercontent.com/composer/getcomposer.org/master/web/i
 WORKDIR /app
 COPY . /app
 COPY --from=composer /usr/bin/composer /usr/bin/composer
-RUN composer install --ignore-platform-reqs --no-scripts
 ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN touch /app/database/database.sqlite
+RUN echo "#!/bin/sh\n" \
+    "composer install" > /app/start.sh
+RUN chmod +x /app/start.sh
 RUN DB_CONNECTION=sqlite php artisan migrate
 RUN DB_CONNECTION=sqlite vendor/bin/phpunit
 RUN echo "#!/bin/sh\n" \
     "php artisan migrate\n" \
-    "php artisan serve --host 0.0.0.0 --port \$PORT" > /app/start.sh
-RUN chmod +x /app/start.sh
-CMD ["/app/start.sh"]
+    "php artisan serve --host 0.0.0.0 --port \$PORT" > /app/start2.sh
+RUN chmod +x /app/start2.sh
+CMD ["/app/start.sh", "/app/start2.sh"]
