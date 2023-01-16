@@ -1,3 +1,7 @@
+FROM composer as composer
+COPY . /app
+RUN composer install --ignore-platform-reqs --no-scripts
+
 FROM php:7
 ENV PORT=8000
 RUN apt-get update; apt-get install -y wget libzip-dev
@@ -7,7 +11,6 @@ WORKDIR /app
 COPY . /app
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
-RUN composer install
 RUN touch /app/database/database.sqlite
 RUN DB_CONNECTION=sqlite php artisan migrate
 RUN DB_CONNECTION=sqlite vendor/bin/phpunit
