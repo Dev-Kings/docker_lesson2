@@ -5,6 +5,7 @@ RUN docker-php-ext-install zip pdo_mysql
 RUN wget https://raw.githubusercontent.com/composer/getcomposer.org/master/web/installer -O - -q | php -- --install-dir=/usr/local/bin --filename=composer
 WORKDIR /app
 COPY . /app
+ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN composer install
 RUN touch /app/database/database.sqlite
 RUN DB_CONNECTION=sqlite php artisan migrate
