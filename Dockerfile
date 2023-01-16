@@ -9,10 +9,10 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN touch /app/database/database.sqlite
 RUN echo "#!/bin/sh\n" \
-    "composer install" > /app/start.sh
+    "composer install\n" \
+    "DB_CONNECTION=sqlite php artisan migrate\n" \
+    "DB_CONNECTION=sqlite vendor/bin/phpunit"> /app/start.sh
 RUN chmod +x /app/start.sh
-RUN DB_CONNECTION=sqlite php artisan migrate
-RUN DB_CONNECTION=sqlite vendor/bin/phpunit
 RUN echo "#!/bin/sh\n" \
     "php artisan migrate\n" \
     "php artisan serve --host 0.0.0.0 --port \$PORT" > /app/start2.sh
