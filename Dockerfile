@@ -9,6 +9,7 @@ FROM composer as composer
 WORKDIR /app
 COPY . /app
 RUN composer install --ignore-platform-reqs --no-scripts
+RUN composer update
 RUN touch /app/database/database.sqlite
 RUN DB_CONNECTION=sqlite php artisan migrate
 RUN DB_CONNECTION=sqlite vendor/bin/phpunit
