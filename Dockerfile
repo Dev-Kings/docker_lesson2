@@ -11,6 +11,7 @@ RUN composer install
 RUN touch /app/database/database.sqlite
 RUN php artisan config:clear
 RUN php artisan key:generate
+RUN php artisan config:cache
 RUN DB_CONNECTION=sqlite php artisan migrate --force
 RUN DB_CONNECTION=sqlite vendor/bin/phpunit
 RUN echo "#!/bin/sh\n" \
