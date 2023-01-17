@@ -14,8 +14,8 @@
 use App\Task;
 use Illuminate\Http\Request;
 
-if(version_compare(PHP_VERSION, '7.0.0', '>=')) {
-    error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
+if(version_compare(PHP_VERSION, '7.2.0', '>=')) {
+    error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED);
 }
 
 Route::group(['middleware' => ['web']], function () {
