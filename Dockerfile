@@ -9,8 +9,10 @@ COPY . /app
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 RUN composer install
 RUN touch /app/database/database.sqlite
+RUN DB_CONNECTION=sqlite php artisan migrate
+RUN DB_CONNECTION=sqlite vendor/bin/phpunit
 RUN echo "#!/bin/sh\n" \
-    "php artisan migrate\n" \
-    "php artisan serve --host 0.0.0.0 --port \$PORT" > /app/start.sh
+ "php artisan migrate\n" \
+ "php artisan serve --host 0.0.0.0 --port \$PORT" > /app/start.sh
 RUN chmod +x /app/start.sh
 CMD ["/app/start.sh"]
