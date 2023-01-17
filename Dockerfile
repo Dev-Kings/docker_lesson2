@@ -7,7 +7,6 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 WORKDIR /app
 COPY . /app
 COPY --from=composer /usr/bin/composer /usr/bin/composer
-RUN composer require dompdf/dompdf
 RUN composer install
 RUN touch /app/database/database.sqlite
 RUN DB_CONNECTION=sqlite php artisan migrate
