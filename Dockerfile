@@ -8,7 +8,6 @@ WORKDIR /app
 COPY . /app
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 RUN composer install
-RUN php artisan config:cache
 RUN touch /app/database/database.sqlite
 RUN DB_CONNECTION=sqlite php artisan migrate --force
 RUN DB_CONNECTION=sqlite vendor/bin/phpunit
