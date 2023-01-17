@@ -9,7 +9,7 @@ COPY . /app
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 RUN composer install
 RUN touch /app/database/database.sqlite
-RUN php artisan config:cache
+RUN php artisan config:clear
 RUN DB_CONNECTION=sqlite php artisan migrate
 RUN DB_CONNECTION=sqlite vendor/bin/phpunit
 RUN echo "#!/bin/sh\n" \
