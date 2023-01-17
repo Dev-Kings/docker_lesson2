@@ -7,7 +7,7 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 WORKDIR /app
 COPY . /app
 COPY --from=composer /usr/bin/composer /usr/bin/composer
-RUN /usr/local/bin/composer install
+RUN composer install
 RUN touch /app/database/database.sqlite
 RUN DB_CONNECTION=sqlite php artisan migrate
 RUN DB_CONNECTION=sqlite vendor/bin/phpunit
